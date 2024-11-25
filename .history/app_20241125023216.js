@@ -18,18 +18,3 @@ const estimatesList = document.getElementById("estimates-list");
 const teamAverages = document.getElementById("team-averages");
 
 
-// Join a Session
-joinSessionBtn.addEventListener("click", () => {
-    const session = sessionIdInput.value.trim();
-  
-    if (!session) {
-      alert("Please enter a valid session ID.");
-      return;
-    }
-  
-    sessionId = session;
-    localStorage.setItem(LOCAL_STORAGE_SESSION, sessionId);
-  
-    alert(`Joined session: ${sessionId}`);
-    loadSessionData();
-  });

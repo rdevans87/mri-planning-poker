@@ -117,6 +117,8 @@ addPlayerBtn.addEventListener("click", () => {
     const player = { sessionId, playerName, playerRole };
     alert(`Player added: ${playerName} (${playerRole})`);
   });
+
+  
   
   // Submit Estimate
 submitEstimateBtn.addEventListener("click", () => {

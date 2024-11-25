@@ -34,17 +34,4 @@ joinSessionBtn.addEventListener("click", () => {
     loadSessionData();
   });
 
-  // Add Player Details
-addPlayerBtn.addEventListener("click", () => {
-    const playerName = playerNameInput.value.trim();
-    const playerRole = playerRoleSelect.value;
-  
-    if (!playerName) {
-      alert("Please enter your name.");
-      return;
-    }
-  
-    const player = { sessionId, playerName, playerRole };
-    alert(`Player added: ${playerName} (${playerRole})`);
-  });
   

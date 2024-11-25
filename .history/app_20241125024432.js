@@ -87,24 +87,4 @@ function renderEstimates() {
     calculateTeamAverages(sessionEstimates);
   }
 
-  // Calculate Team Averages
-function calculateTeamAverages(sessionEstimates) {
-    const teamPoints = { QA: [], PD: [], PM: [] };
-  
-    sessionEstimates.forEach(({ playerRole, estimate }) => {
-      teamPoints[playerRole].push(estimate);
-    });
-  
-    teamAverages.innerHTML = "";
-    Object.keys(teamPoints).forEach(team => {
-      const avg =
-        teamPoints[team].length > 0
-          ? (teamPoints[team].reduce((sum, p) => sum + p, 0) / teamPoints[team].length).toFixed(2)
-          : 0;
-  
-      const p = document.createElement("p");
-      p.textContent = `${team} Team Average: ${avg}`;
-      teamAverages.appendChild(p);
-    });
-  }
   

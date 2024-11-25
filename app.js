@@ -142,7 +142,30 @@ function renderPlayers() {
       playerList.appendChild(li);
     });
   }
+
+  function loadPlayers() {
+    players = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PLAYERS)) || [];
+    renderPlayers();
+  }
   
+  // Update the loadSession function to include players
+  function loadSessionData() {
+    sessionId = localStorage.getItem(LOCAL_STORAGE_SESSION) || "";
+    estimates = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ESTIMATES)) || [];
+    issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];
+    players = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PLAYERS)) || [];
+  
+    if (sessionId) {
+      sessionIdInput.value = sessionId;
+    }
+  
+    renderEstimates();
+    renderIssueCards();
+    renderPlayers();
+  }
+  
+  // Initialize the App
+  loadSessionData();
   
   // Submit Estimate
 submitEstimateBtn.addEventListener("click", () => {

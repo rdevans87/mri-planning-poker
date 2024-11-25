@@ -108,17 +108,4 @@ function calculateTeamAverages(sessionEstimates) {
     });
   }
   
-  // Load Existing Session Data
-function loadSessionData() {
-    sessionId = localStorage.getItem(LOCAL_STORAGE_SESSION) || "";
-    estimates = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ESTIMATES)) || [];
   
-    if (sessionId) {
-      sessionIdInput.value = sessionId;
-    }
-  
-    renderEstimates();
-  }
-  
-  // Initialize App
-  loadSessionData();

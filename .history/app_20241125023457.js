@@ -48,41 +48,4 @@ addPlayerBtn.addEventListener("click", () => {
     alert(`Player added: ${playerName} (${playerRole})`);
   });
   
-  // Submit Estimate
-submitEstimateBtn.addEventListener("click", () => {
-  const estimate = parseInt(estimateInput.value, 10);
-  const playerName = playerNameInput.value.trim();
-  const playerRole = playerRoleSelect.value;
-
-  if (!playerName || !sessionId) {
-    alert("Please join a session and add your name before submitting.");
-    return;
-  }
-
-  if (isNaN(estimate)) {
-    alert("Please enter a valid estimate.");
-    return;
-  }
-
-  // Add estimate
-  const estimateEntry = { sessionId, playerName, playerRole, estimate };
-  estimates.push(estimateEntry);
-  localStorage.setItem(LOCAL_STORAGE_ESTIMATES, JSON.stringify(estimates));
-
-  renderEstimates();
-});
-
-// Render Submitted Estimates
-function renderEstimates() {
-    estimatesList.innerHTML = "";
   
-    const sessionEstimates = estimates.filter(e => e.sessionId === sessionId);
-    sessionEstimates.forEach(({ playerName, playerRole, estimate }) => {
-      const li = document.createElement("li");
-      li.className = "list-group-item";
-      li.textContent = `${playerName} (${playerRole}): ${estimate} story points`;
-      estimatesList.appendChild(li);
-    });
-  
-    calculateTeamAverages(sessionEstimates);
-  }

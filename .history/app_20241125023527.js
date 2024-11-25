@@ -71,18 +71,3 @@ submitEstimateBtn.addEventListener("click", () => {
 
   renderEstimates();
 });
-
-// Render Submitted Estimates
-function renderEstimates() {
-    estimatesList.innerHTML = "";
-  
-    const sessionEstimates = estimates.filter(e => e.sessionId === sessionId);
-    sessionEstimates.forEach(({ playerName, playerRole, estimate }) => {
-      const li = document.createElement("li");
-      li.className = "list-group-item";
-      li.textContent = `${playerName} (${playerRole}): ${estimate} story points`;
-      estimatesList.appendChild(li);
-    });
-  
-    calculateTeamAverages(sessionEstimates);
-  }

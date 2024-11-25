@@ -129,7 +129,20 @@ addPlayerBtn.addEventListener("click", () => {
   playerNameInput.value = "";
 });
   
-
+// Render Players
+function renderPlayers() {
+    playerList.innerHTML = "";
+  
+    const sessionPlayers = players.filter(player => player.sessionId === sessionId);
+  
+    sessionPlayers.forEach(({ name, role }) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+      li.textContent = `${name} (${role})`;
+      playerList.appendChild(li);
+    });
+  }
+  
   
   // Submit Estimate
 submitEstimateBtn.addEventListener("click", () => {

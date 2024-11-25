@@ -5,7 +5,6 @@ const LOCAL_STORAGE_ISSUE_CARDS = "planningPokerIssueCards";
 // State
 let sessionId = "";
 let estimates = [];
-let issueCards = [];
 
 // Elements
 const sessionIdInput = document.getElementById("session-id-input");
@@ -17,11 +16,6 @@ const estimateInput = document.getElementById("estimate-input");
 const submitEstimateBtn = document.getElementById("submit-estimate-btn");
 const estimatesList = document.getElementById("estimates-list");
 const teamAverages = document.getElementById("team-averages");
-const issueTitleInput = document.getElementById("issue-title-input");
-const jiraLinkInput = document.getElementById("jira-link-input");
-const issueDescriptionInput = document.getElementById("issue-description-input");
-const addIssueCardBtn = document.getElementById("add-issue-card-btn");
-const issueCardsList = document.getElementById("issue-cards-list");
 
 // Join a Session
 joinSessionBtn.addEventListener("click", () => {
@@ -37,28 +31,6 @@ joinSessionBtn.addEventListener("click", () => {
   
     alert(`Joined session: ${sessionId}`);
     loadSessionData();
-  });
-
-  addIssueCardBtn.addEventListener("click", () => {
-    const title = issueTitleInput.value.trim();
-    const link = jiraLinkInput.value.trim();
-    const description = issueDescriptionInput.value.trim();
-  
-    if (!title) {
-      alert("Issue title is required.");
-      return;
-    }
-  
-    const issueCard = { sessionId, title, link, description };
-    issueCards.push(issueCard);
-    localStorage.setItem(LOCAL_STORAGE_ISSUE_CARDS, JSON.stringify(issueCards));
-  
-    renderIssueCards();
-  
-    // Clear inputs
-    issueTitleInput.value = "";
-    jiraLinkInput.value = "";
-    issueDescriptionInput.value = "";
   });
 
   // Add Player Details

@@ -39,28 +39,6 @@ joinSessionBtn.addEventListener("click", () => {
     loadSessionData();
   });
 
-  addIssueCardBtn.addEventListener("click", () => {
-    const title = issueTitleInput.value.trim();
-    const link = jiraLinkInput.value.trim();
-    const description = issueDescriptionInput.value.trim();
-  
-    if (!title) {
-      alert("Issue title is required.");
-      return;
-    }
-  
-    const issueCard = { sessionId, title, link, description };
-    issueCards.push(issueCard);
-    localStorage.setItem(LOCAL_STORAGE_ISSUE_CARDS, JSON.stringify(issueCards));
-  
-    renderIssueCards();
-  
-    // Clear inputs
-    issueTitleInput.value = "";
-    jiraLinkInput.value = "";
-    issueDescriptionInput.value = "";
-  });
-
   // Add Player Details
 addPlayerBtn.addEventListener("click", () => {
     const playerName = playerNameInput.value.trim();

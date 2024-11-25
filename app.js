@@ -1,11 +1,13 @@
 // Local Storage Keys
 const LOCAL_STORAGE_SESSION = "planningPokerSession";
+const LOCAL_STORAGE_PLAYERS = "planningPokerPlayers";
 const LOCAL_STORAGE_ESTIMATES = "planningPokerEstimates";
 const LOCAL_STORAGE_ISSUE_CARDS = "planningPokerIssueCards";
 // State
 let sessionId = "";
 let estimates = [];
 let issueCards = [];
+let players = [];
 
 // Elements
 const sessionIdInput = document.getElementById("session-id-input");
@@ -13,6 +15,7 @@ const joinSessionBtn = document.getElementById("join-session-btn");
 const playerNameInput = document.getElementById("player-name-input");
 const playerRoleSelect = document.getElementById("player-role-select");
 const addPlayerBtn = document.getElementById("add-player-btn");
+const playerList = document.getElementById("player-list");
 const estimateInput = document.getElementById("estimate-input");
 const submitEstimateBtn = document.getElementById("submit-estimate-btn");
 const estimatesList = document.getElementById("estimates-list");
@@ -38,6 +41,8 @@ joinSessionBtn.addEventListener("click", () => {
     alert(`Joined session: ${sessionId}`);
     loadSessionData();
   });
+
+
 
   addIssueCardBtn.addEventListener("click", () => {
     const title = issueTitleInput.value.trim();
@@ -113,12 +118,18 @@ addPlayerBtn.addEventListener("click", () => {
       alert("Please enter your name.");
       return;
     }
-  
-    const player = { sessionId, playerName, playerRole };
-    alert(`Player added: ${playerName} (${playerRole})`);
-  });
 
+  const player = { sessionId, name: playerName, role: playerRole };
+  players.push(player);
+  localStorage.setItem(LOCAL_STORAGE_PLAYERS, JSON.stringify(players));
+
+  renderPlayers();
+
+  // Clear inputs
+  playerNameInput.value = "";
+});
   
+
   
   // Submit Estimate
 submitEstimateBtn.addEventListener("click", () => {

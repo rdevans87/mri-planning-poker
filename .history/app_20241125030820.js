@@ -61,25 +61,7 @@ joinSessionBtn.addEventListener("click", () => {
     issueDescriptionInput.value = "";
   });
 
-  // Render Issue Cards
-function renderIssueCards() {
-    issueCardsList.innerHTML = "";
   
-    const sessionIssueCards = issueCards.filter(card => card.sessionId === sessionId);
-  
-    sessionIssueCards.forEach(({ title, link, description }) => {
-      const li = document.createElement("li");
-      li.className = "list-group-item";
-  
-      li.innerHTML = `
-        <strong>${title}</strong>
-        ${link ? `<br><a href="${link}" target="_blank">${link}</a>` : ""}
-        <p>${description}</p>
-      `;
-  
-      issueCardsList.appendChild(li);
-    });
-  }
 
   // Add Player Details
 addPlayerBtn.addEventListener("click", () => {

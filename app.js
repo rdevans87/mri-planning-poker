@@ -7,6 +7,7 @@ const LOCAL_STORAGE_ISSUE_CARDS = "planningPokerIssueCards";
 let sessionId = "";
 let issueCards = [];
 let players = [];
+let activePlayer = null;
 
 // Elements
 const sessionIdInput = document.getElementById("session-id-input");
@@ -24,9 +25,17 @@ const issueCardsList = document.getElementById("issue-cards-list");
 // Join a Session
 joinSessionBtn.addEventListener("click", () => {
   const session = sessionIdInput.value.trim();
+  const playerName = playerNameInput.value.trim();
+  const playerRole = playerRoleSelect.value;
+
 
   if (!session) {
     alert("Please enter a valid session ID.");
+    return;
+  }
+  
+  if (!playerName || !playerRole) {
+    alert("Please enter your name and select your role.");
     return;
   }
 
@@ -157,7 +166,7 @@ function submitEstimate(cardIndex, team) {
   const playerName = playerNameInput.value.trim();
 
   const currentPlayer = players.find(player => player.name === playerName && player.sessionId === sessionId);
-  
+
   if (!currentPlayer) {
     alert("You must join the session to submit an estimate.");
     return;

@@ -97,44 +97,47 @@ function renderIssueCards() {
   const sessionIssueCards = issueCards.filter(card => card.sessionId === sessionId);
 
   sessionIssueCards.forEach((card, index) => {
-    const li = document.createElement("li");
-    li.className = "list-group-item";
+    const li = document.createElement("div");
+    li.className = "col-md-6 mb-4";
 
     li.innerHTML = `
-      <h5>${card.title}</h5>
-      ${card.link ? `<a href="${card.link}" target="_blank">${card.link}</a>` : ""}
-      <p>${card.description}</p>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title text-primary">${card.title}</h5>
+          ${card.link ? `<a href="${card.link}" target="_blank" class="card-link">${card.link}</a>` : ""}
+          <p class="card-text mt-2">${card.description}</p>
+          
+          <div class="mt-4">
+            <h6 class="text-secondary">Dev Team Estimates</h6>
+            <input type="number" class="form-control dev-estimate-input" placeholder="Enter Dev estimate">
+            <button class="btn btn-primary btn-sm mt-2 dev-submit-btn" data-index="${index}">Submit</button>
+            <ul class="list-group mt-2">${renderEstimatesList(card.devEstimates)}</ul>
+          </div>
 
-      <div>
-        <label>Dev Team Estimate:</label>
-        <input type="number" class="form-control dev-estimate-input" placeholder="Enter estimate">
-        <button class="btn btn-primary btn-sm mt-2 dev-submit-btn" data-index="${index}">Submit</button>
-        <ul class="dev-estimates-list mt-2">${renderEstimatesList(card.devEstimates)}</ul>
-      </div>
+          <div class="mt-4">
+            <h6 class="text-secondary">QA Team Estimates</h6>
+            <input type="number" class="form-control qa-estimate-input" placeholder="Enter QA estimate">
+            <button class="btn btn-primary btn-sm mt-2 qa-submit-btn" data-index="${index}">Submit</button>
+            <ul class="list-group mt-2">${renderEstimatesList(card.qaEstimates)}</ul>
+          </div>
 
-      <div>
-      <br>
-        <label>QA Team Estimate:</label>
-        <input type="number" class="form-control qa-estimate-input" placeholder="Enter estimate">
-        <button class="btn btn-primary btn-sm mt-2 qa-submit-btn" data-index="${index}">Submit</button>
-        <ul class="qa-estimates-list mt-2">${renderEstimatesList(card.qaEstimates)}</ul>
-      </div>
-
-      <div class="result-section mt-3">
-        <strong>Results:</strong>
-        <p>Dev Team Average: ${calculateAverage(card.devEstimates)}</p>
-        <p>QA Team Average: ${calculateAverage(card.qaEstimates)}</p>
-        <p>Combined Total: ${calculateCombinedTotal(card)}</p>
+          <div class="mt-4 result-section">
+            <h6 class="text-secondary">Results</h6>
+            <p class="mb-1">Dev Team Average: <span class="text-success">${calculateAverage(card.devEstimates)}</span></p>
+            <p class="mb-1">QA Team Average: <span class="text-success">${calculateAverage(card.qaEstimates)}</span></p>
+            <p class="font-weight-bold">Combined Total (Sum of Averages): <span class="text-primary">${calculateCombinedTotal(card)}</span></p>
+          </div>
+        </div>
       </div>
     `;
 
     issueCardsList.appendChild(li);
 
+    // Event listeners for Dev and QA estimate submissions
     li.querySelector(".dev-submit-btn").addEventListener("click", () => submitEstimate(index, "dev"));
     li.querySelector(".qa-submit-btn").addEventListener("click", () => submitEstimate(index, "qa"));
   });
 }
-
 // Render Estimates List
 function renderEstimatesList(estimates) {
   if (!estimates.length) return "<li>No estimates submitted</li>";

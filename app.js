@@ -195,14 +195,19 @@ function calculateCombinedTotal(card) {
   const qaAvg = parseFloat(calculateAverage(card.qaEstimates));
   return (devAvg + qaAvg).toFixed(2);
 }
-
-// Load Session Data
 function loadSessionData() {
   sessionId = localStorage.getItem(LOCAL_STORAGE_SESSION) || "";
   players = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PLAYERS)) || [];
   issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];
 
   if (sessionId) sessionIdInput.value = sessionId;
+
+  // Set the active player if they exist in the session
+  if (playerNameInput.value.trim()) {
+    activePlayer = players.find(
+      player => player.name === playerNameInput.value.trim() && player.sessionId === sessionId
+    );
+  }
 
   renderPlayers();
   renderIssueCards();

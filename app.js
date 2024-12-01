@@ -113,6 +113,7 @@ function renderIssueCards() {
       </div>
 
       <div>
+      <br>
         <label>QA Team Estimate:</label>
         <input type="number" class="form-control qa-estimate-input" placeholder="Enter estimate">
         <button class="btn btn-primary btn-sm mt-2 qa-submit-btn" data-index="${index}">Submit</button>
@@ -212,6 +213,26 @@ function loadSessionData() {
   renderPlayers();
   renderIssueCards();
 }
+
+// Handle New Session
+const newSessionBtn = document.getElementById("new-session-btn");
+
+newSessionBtn.addEventListener("click", () => {
+  // Clear all localStorage data related to the current session
+  localStorage.removeItem(LOCAL_STORAGE_SESSION);
+  localStorage.removeItem(LOCAL_STORAGE_PLAYERS);
+  localStorage.removeItem(LOCAL_STORAGE_ISSUE_CARDS);
+
+  // Reset state variables
+  sessionId = "";
+  players = [];
+  issueCards = [];
+  activePlayer = null;
+
+  // Refresh the page to start a new session
+  alert("Starting a new session...");
+  window.location.reload();
+});
 
 // Initialize App
 loadSessionData();

@@ -11,35 +11,18 @@
     <div class="container mt-5">
         <h1 class="text-center">Planning Poker</h1>
 
-        <section id="session-section" class="mt-4">
-            <h3>Create or Join a Session</h3>
-            <div class="row">
-              <div class="col-md-6">
-                <input id="session-id-input" type="text" class="form-control" placeholder="Enter or Create a Session ID">
-              </div>
-              <div class="col-md-6">
-                <button id="join-session-btn" class="btn btn-primary">Join Session</button>
-              </div>
-            </div>
-          </section>
-
-          <section id="player-section" class="mt-4">
-            <h3>Add Your Details</h3>
-            <div class="row">
-              <div class="col-md-6">
-                <input id="player-name-input" type="text" class="form-control" placeholder="Your Name">
-              </div>
-              <div class="col-md-6">
-                <select id="player-role-select" class="form-control">
-                  <option value="QA">QA Team</option>
-                  <option value="PD">PD Team</option>
-                  <option value="PM">PM Team</option>
-                </select>
-              </div>
-              <div class="col-md-12 mt-2">
-                <button id="add-player-btn" class="btn btn-success">Add Player</button>
-              </div>
-            </div>
+        <!-- Player Details Section -->
+<div class="player-details">
+  <input id="session-id-input" type="text" class="form-control" placeholder="Enter Session ID">
+  <input id="player-name-input" type="text" class="form-control mt-2" placeholder="Enter Your Name">
+  <select id="player-role-select" class="form-control mt-2">
+    <option value="" disabled selected>Select Your Role</option>
+    <option value="QA">QA Team</option>
+    <option value="PD">Dev Team</option>
+    <option value="PM">Project Manager</option>
+  </select>
+  <button id="join-session-btn" class="btn btn-primary mt-2">Join Session</button>
+</div>
 
             <!-- Display Player List -->
             <h4 class="mt-4">Players in the Session</h4>
@@ -66,7 +49,7 @@
             <ul id="issue-cards-list" class="list-group mt-3"></ul>
         </section>
 
-   
+  
 
           <section id="results-section" class="mt-4">
             <h3>Results</h3>

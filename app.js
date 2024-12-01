@@ -33,7 +33,7 @@ joinSessionBtn.addEventListener("click", () => {
     alert("Please enter a valid session ID.");
     return;
   }
-  
+
   if (!playerName || !playerRole) {
     alert("Please enter your name and select your role.");
     return;
@@ -42,34 +42,20 @@ joinSessionBtn.addEventListener("click", () => {
   sessionId = session;
   localStorage.setItem(LOCAL_STORAGE_SESSION, sessionId);
 
-  alert(`Joined session: ${sessionId}`);
+  if (!players.some(player => player.name === playerName && player.sessionId === sessionId)) {
+    const newPlayer = { sessionId, name: playerName, role: playerRole };
+    players.push(newPlayer);
+    localStorage.setItem(LOCAL_STORAGE_PLAYERS, JSON.stringify(players));
+  }
+
+  // Set the active player
+  activePlayer = players.find(player => player.name === playerName && player.sessionId === sessionId);
+  
+
+  alert(`Joined session: ${sessionId} as ${playerName} (${playerRole})`);
   loadSessionData();
 });
 
-// Add Player
-addPlayerBtn.addEventListener("click", () => {
-  const playerName = playerNameInput.value.trim();
-  const playerRole = playerRoleSelect.value;
-
-  if (!playerName) {
-    alert("Please enter your name.");
-    return;
-  }
-
-  if (players.some(player => player.name === playerName && player.sessionId === sessionId)) {
-    alert("Player already exists.");
-    return;
-  }
-
-  const player = { sessionId, name: playerName, role: playerRole };
-  players.push(player);
-  localStorage.setItem(LOCAL_STORAGE_PLAYERS, JSON.stringify(players));
-
-  renderPlayers();
-  playerNameInput.value = "";
-});
-
-// Render Players
 function renderPlayers() {
   playerList.innerHTML = "";
 
@@ -163,11 +149,8 @@ function submitEstimate(cardIndex, team) {
   )[cardIndex];
 
   const estimate = parseInt(estimateInput.value, 10);
-  const playerName = playerNameInput.value.trim();
-
-  const currentPlayer = players.find(player => player.name === playerName && player.sessionId === sessionId);
-
-  if (!currentPlayer) {
+ 
+  if (!activePlayer) {
     alert("You must join the session to submit an estimate.");
     return;
   }
@@ -176,19 +159,20 @@ function submitEstimate(cardIndex, team) {
     alert("Please enter a valid estimate.");
     return;
   }
-  const estimateEntry = { playerName: currentPlayer.name, estimate };
+
+  const estimateEntry = { playerName: activePlayer.name, estimate };
 
   if (team === "dev") {
     // Prevent duplicate estimates from the same player
-    if (card.devEstimates.some(e => e.playerName === currentPlayer.name)) {
-      alert("You have already submitted an estimate for this card.");
+    if (card.devEstimates.some(e => e.playerName === activePlayer.name)) {
+      alert("You have already submitted an estimate for this card as a Dev team member.");
       return;
     }
     card.devEstimates.push(estimateEntry);
   } else if (team === "qa") {
     // Prevent duplicate estimates from the same player
-    if (card.qaEstimates.some(e => e.playerName === currentPlayer.name)) {
-      alert("You have already submitted an estimate for this card.");
+    if (card.qaEstimates.some(e => e.playerName === activePlayer.name)) {
+      alert("You have already submitted an estimate for this card as a QA team member.");
       return;
     }
     card.qaEstimates.push(estimateEntry);

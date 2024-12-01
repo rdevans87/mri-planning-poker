@@ -202,7 +202,8 @@ function loadSessionData() {
   issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];
 
   if (sessionId) sessionIdInput.value = sessionId;
-
+  document.getElementById("current-session").textContent = sessionId;
+  
   // Set the active player if they exist in the session
   if (playerNameInput.value.trim()) {
     activePlayer = players.find(

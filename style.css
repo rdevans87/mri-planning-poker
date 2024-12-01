@@ -1,13 +1,44 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding:0;
-};
-
-.list-group-item {
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  }
+  .container {
+    margin-top: 30px;
+  }
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+  .card {
+    margin-bottom: 20px;
+  }
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+  }
+  .btn-danger:hover {
+    background-color: #a71d2a;
+  }
+  .result-section p {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  .list-group-item {
     display: flex;
     justify-content: space-between;
   }
-  .team-avg {
-    margin-top: 20px;
-  };
+  .active-player {
+    color: #28a745;
+    font-weight: bold;
+  }

@@ -8,50 +8,63 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Planning Poker</h1>
 
-        <!-- Player Details Section -->
-<div class="player-details">
-  <input id="session-id-input" type="text" class="form-control" placeholder="Enter Session ID">
-  <input id="player-name-input" type="text" class="form-control mt-2" placeholder="Enter Your Name">
-  <select id="player-role-select" class="form-control mt-2">
-    <option value="" disabled selected>Select Your Role</option>
-    <option value="QA">QA Team</option>
-    <option value="PD">Dev Team</option>
-    <option value="PM">PM Team</option>
-  </select>
-  <button id="join-session-btn" class="btn btn-primary mt-2">Join Session</button>
-</div>
+  <div class="container">
+    <h1 class="text-center text-primary">Planning Poker</h1>
+    <p class="text-center text-secondary">Collaborative Story Point Estimation Tool</p>
 
-            <!-- Display Player List -->
-            <h4 class="mt-4">Players in the Session</h4>
-            <ul id="player-list" class="list-group mt-2"></ul>
-          </section>
-
-          <!-- Issue Cards Section -->
-        <section id="issue-cards-section" class="mt-4">
-            <h3>Issue Cards</h3>
-            <div class="row">
-             <div class="col-md-6">
-                <input id="issue-title-input" type="text" class="form-control" placeholder="Enter Issue Title">
-            </div>
-            <div class="col-md-6">
-                <input id="jira-link-input" type="url" class="form-control" placeholder="Jira Link (Optional)">
-            </div>
-            <div class="col-md-12 mt-2">
-                <textarea id="issue-description-input" class="form-control" rows="3" placeholder="Enter Issue Description"></textarea>
-            </div>
-            <div class="col-md-12 mt-2">
-                <button id="add-issue-card-btn" class="btn btn-primary">Add Issue Card</button>
-            </div>
-            </div>
-            <ul id="issue-cards-list" class="list-group mt-3"></ul>
-        </section>
-
-        <div class="session-controls mt-4">
-          <button id="new-session-btn" class="btn btn-danger">Start New Session</button>
+    <!-- Session Controls -->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="section-title">Join Session</h5>
+            <input id="session-id-input" type="text" class="form-control mb-2" placeholder="Enter Session ID">
+            <input id="player-name-input" type="text" class="form-control mb-2" placeholder="Enter Your Name">
+            <select id="player-role-select" class="form-control mb-2">
+              <option value="" disabled selected>Select Your Role</option>
+              <option value="QA">QA Team</option>
+              <option value="PD">Dev Team</option>
+              <option value="PM">Project Manager</option>
+            </select>
+            <button id="join-session-btn" class="btn btn-primary btn-block">Join Session</button>
+          </div>
         </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="section-title">Session Controls</h5>
+            <p>Current Session: <span id="current-session" class="active-player"></span></p>
+            <button id="new-session-btn" class="btn btn-danger btn-block">Start New Session</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player List -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="section-title">Players in Session</h5>
+        <ul id="player-list" class="list-group"></ul>
+      </div>
+    </div>
+
+    <!-- Issue Card Section -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="section-title">Add Issue Card</h5>
+        <input id="issue-title-input" type="text" class="form-control mb-2" placeholder="Enter Issue Title">
+        <input id="jira-link-input" type="url" class="form-control mb-2" placeholder="Enter Jira Link (Optional)">
+        <textarea id="issue-description-input" class="form-control mb-2" rows="3" placeholder="Enter Issue Description"></textarea>
+        <button id="add-issue-card-btn" class="btn btn-primary btn-block">Add Issue Card</button>
+      </div>
+    </div>
+
+    <!-- Issue Cards -->
+    <div id="issue-cards-list" class="row"></div>
+  </div>
+    
     
     <script src="app.js"></script>
 </body> 

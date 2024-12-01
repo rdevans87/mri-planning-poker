@@ -123,6 +123,48 @@ function renderIssueCards() {
     });
   }
   
+
+  function renderEstimatesList(estimates) {
+    if (!estimates || estimates.length === 0) return "<li>No estimates submitted</li>";
+  
+    return estimates
+      .map(
+        ({ playerName, estimate }) =>
+          `<li>${playerName}: ${estimate} story points</li>`
+      )
+      .join("");
+  }
+
+  function submitEstimate(cardIndex, team) {
+    const card = issueCards[cardIndex];
+    const estimateInput =
+      team === "dev"
+        ? issueCardsList.querySelectorAll(".dev-estimate-input")[cardIndex]
+        : issueCardsList.querySelectorAll(".qa-estimate-input")[cardIndex];
+  
+    const estimate = parseInt(estimateInput.value, 10);
+    const playerName = playerNameInput.value.trim();
+  
+    if (!playerName) {
+      alert("Please enter your name before submitting.");
+      return;
+    }
+  
+    if (isNaN(estimate)) {
+      alert("Please enter a valid estimate.");
+      return;
+    }
+    const estimateEntry = { playerName, estimate };
+
+    if (team === "dev") {
+      card.devEstimates.push(estimateEntry);
+    } else if (team === "qa") {
+      card.qaEstimates.push(estimateEntry);
+    }
+  
+    localStorage.setItem(LOCAL_STORAGE_ISSUE_CARDS, JSON.stringify(issueCards));
+    renderIssueCards(); // Re-render the issue cards to update the results
+  }
   // Load Existing Issue Cards
 function loadIssueCards() {
     issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];

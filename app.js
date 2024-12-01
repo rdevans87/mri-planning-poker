@@ -180,7 +180,30 @@ function submitEstimate(cardIndex, team) {
 
 // Calculate Average
 function calculateAverage(estimates) {
-  if (!estimates.length) return 
-
+  if (!estimates.length) return  0;
+  const total = estimates.reduce((sum, { estimate }) => sum + estimate, 0);
+  return (total / estimates.length).toFixed(2);
 }
+
+// Calculate Combined Total (Sum of Averages)
+function calculateCombinedTotal(card) {
+  const devAvg = parseFloat(calculateAverage(card.devEstimates));
+  const qaAvg = parseFloat(calculateAverage(card.qaEstimates));
+  return (devAvg + qaAvg).toFixed(2);
+}
+
+// Load Session Data
+function loadSessionData() {
+  sessionId = localStorage.getItem(LOCAL_STORAGE_SESSION) || "";
+  players = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PLAYERS)) || [];
+  issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];
+
+  if (sessionId) sessionIdInput.value = sessionId;
+
+  renderPlayers();
+  renderIssueCards();
+}
+
+// Initialize App
+loadSessionData();
 

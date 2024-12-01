@@ -154,8 +154,10 @@ function submitEstimate(cardIndex, team) {
   )[cardIndex];
 
   const estimate = parseInt(estimateInput.value, 10);
-  const currentPlayer = players.find(player => player.sessionId === sessionId);
+  const playerName = playerNameInput.value.trim();
 
+  const currentPlayer = players.find(player => player.name === playerName && player.sessionId === sessionId);
+  
   if (!currentPlayer) {
     alert("You must join the session to submit an estimate.");
     return;

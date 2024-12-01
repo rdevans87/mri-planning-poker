@@ -154,10 +154,10 @@ function submitEstimate(cardIndex, team) {
   )[cardIndex];
 
   const estimate = parseInt(estimateInput.value, 10);
-  const playerName = playerNameInput.value.trim();
+  const currentPlayer = players.find(player => player.sessionId === sessionId);
 
-  if (!playerName) {
-    alert("Please enter your name before submitting.");
+  if (!currentPlayer) {
+    alert("You must join the session to submit an estimate.");
     return;
   }
 
@@ -165,17 +165,26 @@ function submitEstimate(cardIndex, team) {
     alert("Please enter a valid estimate.");
     return;
   }
-
-  const estimateEntry = { playerName, estimate };
+  const estimateEntry = { playerName: currentPlayer.name, estimate };
 
   if (team === "dev") {
+    // Prevent duplicate estimates from the same player
+    if (card.devEstimates.some(e => e.playerName === currentPlayer.name)) {
+      alert("You have already submitted an estimate for this card.");
+      return;
+    }
     card.devEstimates.push(estimateEntry);
-  } else {
+  } else if (team === "qa") {
+    // Prevent duplicate estimates from the same player
+    if (card.qaEstimates.some(e => e.playerName === currentPlayer.name)) {
+      alert("You have already submitted an estimate for this card.");
+      return;
+    }
     card.qaEstimates.push(estimateEntry);
   }
 
   localStorage.setItem(LOCAL_STORAGE_ISSUE_CARDS, JSON.stringify(issueCards));
-  renderIssueCards();
+  renderIssueCards(); // Re-render the issue cards to update the results
 }
 
 // Calculate Average

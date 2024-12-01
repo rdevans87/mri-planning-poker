@@ -83,16 +83,46 @@ function renderIssueCards() {
       const li = document.createElement("li");
       li.className = "list-group-item";
   
-      li.innerHTML = `
-        <strong>${title}</strong>
-        ${link ? `<br><a href="${link}" target="_blank">${link}</a>` : ""}
-        <p>${description}</p>
-      `;
+      // li.innerHTML = `
+      //  <strong>${title}</strong>
+     //  ${link ? `<br><a href="${link}" target="_blank">${link}</a>` : ""}
+      //  <p>${description}</p>
+      //  `;
+
+    li.innerHTML = `
+    <h5>${card.title}</h5>
+    ${card.link ? `<a href="${card.link}" target="_blank">${card.link}</a>` : ""}
+    <p>${card.description}</p>
+
+    <div class="mt-3">
+      <label>Dev Team Estimate:</label>
+      <input type="number" class="form-control dev-estimate-input" placeholder="Enter estimate">
+      <button class="btn btn-primary btn-sm mt-2 dev-submit-btn" data-index="${index}">Submit</button>
+      <ul class="dev-estimates-list mt-2">${renderEstimatesList(card.devEstimates)}</ul>
+    </div>
+
+    <div class="mt-3">
+      <label>QA Team Estimate:</label>
+      <input type="number" class="form-control qa-estimate-input" placeholder="Enter estimate">
+      <button class="btn btn-primary btn-sm mt-2 qa-submit-btn" data-index="${index}">Submit</button>
+      <ul class="qa-estimates-list mt-2">${renderEstimatesList(card.qaEstimates)}</ul>
+    </div>
+
+    <div class="mt-3 result-section">
+      <strong>Results:</strong>
+      <p>Dev Team Average: <span class="dev-average">${calculateAverage(card.devEstimates)}</span></p>
+      <p>QA Team Average: <span class="qa-average">${calculateAverage(card.qaEstimates)}</span></p>
+      <p>Combined Total (Sum of Averages): <span class="combined-total">${calculateCombinedTotal(card)}</span></p>
+    </div>
+  `;
   
       issueCardsList.appendChild(li);
+
+      li.querySelector(".dev-submit-btn").addEventListener("click", () => submitEstimate(index, "dev"));
+      li.querySelector(".qa-submit-btn").addEventListener("click", () => submitEstimate(index, "qa"));
     });
   }
-
+  
   // Load Existing Issue Cards
 function loadIssueCards() {
     issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];

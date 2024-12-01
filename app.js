@@ -1,7 +1,7 @@
 // Local Storage Keys
 const LOCAL_STORAGE_SESSION = "planningPokerSession";
 const LOCAL_STORAGE_PLAYERS = "planningPokerPlayers";
-const LOCAL_STORAGE_ESTIMATES = "planningPokerEstimates";
+//const LOCAL_STORAGE_ESTIMATES = "planningPokerEstimates";
 const LOCAL_STORAGE_ISSUE_CARDS = "planningPokerIssueCards";
 // State
 let sessionId = "";
@@ -16,10 +16,10 @@ const playerNameInput = document.getElementById("player-name-input");
 const playerRoleSelect = document.getElementById("player-role-select");
 const addPlayerBtn = document.getElementById("add-player-btn");
 const playerList = document.getElementById("player-list");
-const estimateInput = document.getElementById("estimate-input");
+//const estimateInput = document.getElementById("estimate-input");
 const submitEstimateBtn = document.getElementById("submit-estimate-btn");
 const estimatesList = document.getElementById("estimates-list");
-const teamAverages = document.getElementById("team-averages");
+//const teamAverages = document.getElementById("team-averages");
 const issueTitleInput = document.getElementById("issue-title-input");
 const jiraLinkInput = document.getElementById("jira-link-input");
 const issueDescriptionInput = document.getElementById("issue-description-input");
@@ -43,7 +43,6 @@ joinSessionBtn.addEventListener("click", () => {
   });
 
 
-
   addIssueCardBtn.addEventListener("click", () => {
     const title = issueTitleInput.value.trim();
     const link = jiraLinkInput.value.trim();
@@ -54,7 +53,15 @@ joinSessionBtn.addEventListener("click", () => {
       return;
     }
   
-    const issueCard = { sessionId, title, link, description };
+    const issueCard = { 
+      sessionId, 
+      title, 
+      link, 
+      description, 
+      devEstimates: [], 
+      qaEstimates: [], 
+    };
+    
     issueCards.push(issueCard);
     localStorage.setItem(LOCAL_STORAGE_ISSUE_CARDS, JSON.stringify(issueCards));
   

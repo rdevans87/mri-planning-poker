@@ -57,18 +57,18 @@ joinSessionBtn.addEventListener("click", () => {
 });
 
 function renderPlayers() {
+  const playerList = document.getElementById("player-list");
   playerList.innerHTML = "";
 
   const sessionPlayers = players.filter(player => player.sessionId === sessionId);
 
   sessionPlayers.forEach(({ name, role }) => {
     const li = document.createElement("li");
-    li.className = "list-group-item";
-    li.textContent = `${name} (${role})`;
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.innerHTML = `<span>${name}</span> <span class="badge badge-secondary">${role}</span>`;
     playerList.appendChild(li);
   });
 }
-
 // Add Issue Card
 addIssueCardBtn.addEventListener("click", () => {
   const title = issueTitleInput.value.trim();
@@ -204,14 +204,9 @@ function loadSessionData() {
   players = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PLAYERS)) || [];
   issueCards = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ISSUE_CARDS)) || [];
 
-  if (sessionId) sessionIdInput.value = sessionId;
-  document.getElementById("current-session").textContent = sessionId;
-  
-  // Set the active player if they exist in the session
-  if (playerNameInput.value.trim()) {
-    activePlayer = players.find(
-      player => player.name === playerNameInput.value.trim() && player.sessionId === sessionId
-    );
+  if (sessionId) {
+    sessionIdInput.value = sessionId;
+    document.getElementById("current-session").textContent = sessionId;
   }
 
   renderPlayers();

@@ -34,13 +34,21 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="section-title">Session Details</h5>
-            <p><strong>Current Session:</strong> <span id="current-session" class="text-primary"></span></p>
-            <h6 class="text-secondary">Players in Session:</h6>
-            <ul id="player-list" class="list-group mb-3"></ul>
+            <h5 class="section-title">Session Controls</h5>
+            <p>Current Session: <span id="current-session" class="active-player"></span></p>
             <button id="new-session-btn" class="btn btn-danger btn-block">Start New Session</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Player List -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="section-title">Players in Session</h5>
+        <ul id="player-list" class="list-group"></ul>
+      </div>
+    </div>
 
     <!-- Issue Card Section -->
     <div class="card">

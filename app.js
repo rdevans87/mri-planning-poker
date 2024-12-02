@@ -1,10 +1,12 @@
+
+
 // Local Storage Keys
 const LOCAL_STORAGE_SESSION = "planningPokerSession";
 const LOCAL_STORAGE_PLAYERS = "planningPokerPlayers";
 const LOCAL_STORAGE_ISSUE_CARDS = "planningPokerIssueCards";
 
 // State
-let sessionId = "";
+//let sessionId = "";
 let issueCards = [];
 let players = [];
 let activePlayer = null;
@@ -21,6 +23,61 @@ const jiraLinkInput = document.getElementById("jira-link-input");
 const issueDescriptionInput = document.getElementById("issue-description-input");
 const addIssueCardBtn = document.getElementById("add-issue-card-btn");
 const issueCardsList = document.getElementById("issue-cards-list");
+
+
+// Connect to the backend server
+const socket = io('http://localhost:3000');
+let sessionId;
+
+// Join a session
+function joinSession() {
+  sessionId = document.getElementById('session-id-input').value.trim();
+  const userName = document.getElementById('player-name-input').value.trim();
+  const userRole = document.getElementById('player-role-select').value;
+
+  if (!sessionId || !userName || !userRole) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  // Emit joinSession event to the server
+  socket.emit('joinSession', { sessionId, userName, userRole });
+}
+
+// Listen for session data updates
+socket.on('sessionData', (session) => {
+  renderSessionData(session);
+});
+
+// Submit an estimate
+function submitEstimate(issue, estimate) {
+  if (!sessionId) {
+    alert('Please join a session first.');
+    return;
+  }
+
+  // Emit submitEstimate event to the server
+  socket.emit('submitEstimate', { sessionId, issue, estimate });
+}
+
+// Render session data
+function renderSessionData(session) {
+  const playerList = document.getElementById('player-list');
+  playerList.innerHTML = '';
+  session.users.forEach(({ name, role }) => {
+    const li = document.createElement('li');
+    li.textContent = `${name} (${role})`;
+    playerList.appendChild(li);
+  });
+
+  const estimatesList = document.getElementById('estimates-list');
+  estimatesList.innerHTML = '';
+  session.estimates.forEach(({ issue, estimate }) => {
+    const li = document.createElement('li');
+    li.textContent = `Issue: ${issue}, Estimate: ${estimate}`;
+    estimatesList.appendChild(li);
+  });
+}
 
 // Join a Session
 joinSessionBtn.addEventListener("click", () => {

@@ -26,7 +26,7 @@ const issueCardsList = document.getElementById("issue-cards-list");
 
 
 // Connect to the backend server
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:5500');
 let sessionId;
 
 // Join a session

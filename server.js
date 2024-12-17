@@ -29,10 +29,10 @@ io.on('connection', (socket) => {
   });
 
   // Add an issue card
-  socket.on('addIssueCard', ({ sessionId, title, description }) => {
+  socket.on('addIssueCard', ({ sessionId, title, description, url }) => {
     const session = sessions[sessionId];
     if (session) {
-      session.issueCards.push({ title, description });
+      session.issueCards.push({ title, description, url });
       io.to(sessionId).emit('sessionData', session);
     }
   });

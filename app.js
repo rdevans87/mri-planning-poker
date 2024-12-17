@@ -27,9 +27,9 @@ function addIssueCard() {
   }
   socket.emit('addIssueCard', { sessionId, title: issueTitle, description: issueDescription, url: issueUrl });
 
-  document.getElementById('issue-title-input').value = '';
-  document.getElementById('issue-description-input').value = '';
-  document.getElementById('issue-url-input').value = '';
+  //document.getElementById('issue-title-input').value = '';
+  //document.getElementById('issue-description-input').value = '';
+  //document.getElementById('issue-url-input').value = '';
 }
 
 // Listen for session updates
@@ -53,13 +53,29 @@ function renderPlayers(users) {
 function renderIssueCards(issueCards) {
   const issueCardsList = document.getElementById('issue-cards-list');
   issueCardsList.innerHTML = '';
+
   issueCards.forEach(({ title, description, url }) => {
     const li = document.createElement('li');
-    li.innerHTML = 
-    `<strong>${title}</strong><br>
-   <p> ${description}</p>
-     ${url ? `<a href="${url}" target="_blank">View Jira Issue</a>` : ''}
+    li.style.marginBottom = '15px'; // Add spacing between issue cards
+
+    // Create the content for the issue card
+    li.innerHTML = `
+      <strong>${title}</strong><br>
+      <p>${description}</p>
     `;
+
+    // If a URL exists, create an <a> element for the clickable link
+    if (url) {
+      const link = document.createElement('a');
+      link.href = url; // Set the link's href
+      link.target = '_blank'; // Open the link in a new tab
+      link.textContent = 'View Jira Issue';
+      link.style.color = '#007bff';
+      link.style.textDecoration = 'underline';
+      li.appendChild(link); // Append the link to the issue card
+    }
+
+    // Add the issue card to the list
     issueCardsList.appendChild(li);
   });
 }

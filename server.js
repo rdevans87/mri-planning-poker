@@ -6,52 +6,48 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// In-memory data store for sessions
+// Serve the frontend files
+app.use(express.static(__dirname));
+
+// In-memory data store
 const sessions = {};
 
-// Handle WebSocket connections
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  console.log('User connected:', socket.id);
 
   // Join a session
   socket.on('joinSession', ({ sessionId, userName, userRole }) => {
-    // Create session if it doesn't exist
     if (!sessions[sessionId]) {
-      sessions[sessionId] = { users: [], estimates: [] };
+      sessions[sessionId] = { users: [], issueCards: [] };
     }
-
-    // Add user to the session
     const session = sessions[sessionId];
+
+    // Add the user
     session.users.push({ id: socket.id, name: userName, role: userRole });
-
-    // Join the Socket.IO room for the session
     socket.join(sessionId);
-
-    // Notify all users in the session
     io.to(sessionId).emit('sessionData', session);
   });
 
-  // Submit an estimate
-  socket.on('submitEstimate', ({ sessionId, issue, estimate }) => {
+  // Add an issue card
+  socket.on('addIssueCard', ({ sessionId, title, description }) => {
     const session = sessions[sessionId];
     if (session) {
-      session.estimates.push({ issue, estimate });
+      session.issueCards.push({ title, description });
       io.to(sessionId).emit('sessionData', session);
     }
   });
 
-  // Handle user disconnect
+  // Disconnect handling
   socket.on('disconnect', () => {
     for (const sessionId in sessions) {
       const session = sessions[sessionId];
-      session.users = session.users.filter((user) => user.id !== socket.id);
+      session.users = session.users.filter(user => user.id !== socket.id);
       io.to(sessionId).emit('sessionData', session);
     }
+    console.log('User disconnected:', socket.id);
   });
 });
 
-// Start the server
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
 });

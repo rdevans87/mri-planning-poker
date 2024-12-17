@@ -11,63 +11,42 @@
   <script src="server.js" defer></script>
 </head>
 <body>
-
   <div class="container">
-    <h1 class="text-center text-primary">Planning Poker</h1>
-    <p class="text-center text-secondary">Collaborative Story Point Estimation Tool</p>
 
-    <!-- Session Controls -->
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="section-title">Join Session</h5>
-            <input id="session-id-input" type="text" class="form-control mb-2" placeholder="Enter Session ID">
-            <input id="player-name-input" type="text" class="form-control mb-2" placeholder="Enter Your Name">
-            <select id="player-role-select" class="form-control mb-2">
-              <option value="" disabled selected>Select Your Role</option>
-              <option value="QA">QA Team</option>
-              <option value="PD">Dev Team</option>
-              <option value="PM">PM Team</option>
-            </select>
-            <button id="join-session-btn" class="btn btn-primary btn-block">Join Session</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="section-title">Session Controls</h5>
-            <p>Current Session: <span id="current-session" class="active-player"></span></p>
-            <button id="new-session-btn" class="btn btn-danger btn-block">Start New Session</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Player List -->
+    <!-- Session Management Section -->
     <div class="card">
-      <div class="card-body">
-        <h5 class="section-title">Players in Session</h5>
-        <ul id="player-list" class="list-group"></ul>
-      </div>
+      <h2>Session Management</h2>
+      <input id="session-id-input" type="text" placeholder="Enter Session ID">
+      <input id="player-name-input" type="text" placeholder="Enter Your Name">
+      <select id="player-role-select">
+        <option value="" disabled selected>Select Your Role</option>
+        <option value="QA">QA Team</option>
+        <option value="PD">Dev Team</option>
+        <option value="PM">Project Manager</option>
+      </select>
+      <button onclick="joinSession()">Join Session</button>
     </div>
 
-    <!-- Issue Card Section -->
+    <!-- Players List -->
     <div class="card">
-      <div class="card-body">
-        <h5 class="section-title">Add Issue Card</h5>
-        <input id="issue-title-input" type="text" class="form-control mb-2" placeholder="Enter Issue Title">
-        <input id="jira-link-input" type="url" class="form-control mb-2" placeholder="Enter Jira Link (Optional)">
-        <textarea id="issue-description-input" class="form-control mb-2" rows="3" placeholder="Enter Issue Description"></textarea>
-        <button id="add-issue-card-btn" class="btn btn-primary btn-block">Add Issue Card</button>
-      </div>
+      <h2>Players in Session</h2>
+      <ul id="player-list"></ul>
     </div>
 
-    <!-- Issue Cards -->
-    <div id="issue-cards-list" class="row"></div>
+    <!-- Add Issue Card Section -->
+    <div class="card">
+      <h2>Add Issue Card</h2>
+      <input id="issue-title-input" type="text" placeholder="Enter Issue Title">
+      <textarea id="issue-description-input" rows="3" placeholder="Enter Issue Description"></textarea>
+      <button onclick="addIssueCard()">Add Issue Card</button>
+    </div>
+
+    <!-- Issue Cards Section -->
+    <div class="card">
+      <h2>Issue Cards</h2>
+      <ul id="issue-cards-list"></ul>
+    </div>
+  
   </div>
-    
- 
 </body> 
 </html>

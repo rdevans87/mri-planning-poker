@@ -54,12 +54,17 @@ function renderIssueCards(issueCards) {
   const issueCardsList = document.getElementById('issue-cards-list');
   issueCardsList.innerHTML = '';
 
-  issueCards.forEach(({ title, description, url }) => {
+  issueCards.forEach((card, index) => {
+    const devAverage = calculateAverage(card.devEstimates || []);
+    const qaAverage = calculateAverage(card.qaEstimates || []);
+    const combinedTotal = (parseFloat(devAverage) + parseFloat(qaAverage)).toFixed(2);
+
     const li = document.createElement('li');
     li.style.marginBottom = '20px';
     li.style.padding = '10px';
     li.style.border = '1px solid #ccc';
     li.style.borderRadius = '5px';
+
 
     // Create the content for the issue card
     li.innerHTML = `
@@ -80,8 +85,9 @@ function renderIssueCards(issueCards) {
 
       <!-- Results Section -->
       <div style="margin-top: 10px;">
-        <p>Dev Team Average: ${calculateAverage(card.devEstimates || [])}</p>
-        <p>QA Team Average: ${calculateAverage(card.qaEstimates || [])}</p>
+        <p>Dev Team Average: <span style="color: #28a745;">${devAverage}</span></p>
+        <p>QA Team Average: <span style="color: #17a2b8;">${qaAverage}</span></p>
+        <p style="color: #dc3545; font-weight: bold;">Combined Total: ${combinedTotal}</p>
       </div>
     `;
     // Add the issue card to the list

@@ -37,6 +37,19 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('submitEstimate', ({ sessionId, cardIndex, team, estimate }) => {
+    const session = sessions[sessionId];
+    if (session && session.issueCards[cardIndex]) {
+      if (!session.issueCards[cardIndex][`${team}Estimates`]) {
+        session.issueCards[cardIndex][`${team}Estimates`] = [];
+      }
+      session.issueCards[cardIndex][`${team}Estimates`].push(estimate);
+  
+      // Broadcast updated session data
+      io.to(sessionId).emit('sessionData', session);
+    }
+  });
+
   // Disconnect handling
   socket.on('disconnect', () => {
     for (const sessionId in sessions) {

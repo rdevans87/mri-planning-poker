@@ -56,26 +56,56 @@ function renderIssueCards(issueCards) {
 
   issueCards.forEach(({ title, description, url }) => {
     const li = document.createElement('li');
-    li.style.marginBottom = '15px'; // Add spacing between issue cards
+    li.style.marginBottom = '20px';
+    li.style.padding = '10px';
+    li.style.border = '1px solid #ccc';
+    li.style.borderRadius = '5px';
 
     // Create the content for the issue card
     li.innerHTML = `
-      <strong>${title}</strong><br>
-      <p>${description}</p>
+     <strong>${card.title}</strong><br>
+      <p>${card.description}</p>
+      ${card.url ? `<a href="${card.url}" target="_blank" style="color: #007bff; text-decoration: underline;">View Jira Issue</a>` : ''}
+      <div style="margin-top: 10px;">
+        <!-- Dev Team Estimate -->
+        <label for="dev-estimate-${index}">Dev Team Estimate:</label>
+        <input id="dev-estimate-${index}" type="number" placeholder="Enter points" style="width: 80px;">
+        <button onclick="submitEstimate(${index}, 'dev')">Submit</button>
+
+        <!-- QA Team Estimate -->
+        <label for="qa-estimate-${index}" style="margin-left: 10px;">QA Team Estimate:</label>
+        <input id="qa-estimate-${index}" type="number" placeholder="Enter points" style="width: 80px;">
+        <button onclick="submitEstimate(${index}, 'qa')">Submit</button>
+      </div>
+
+      <!-- Results Section -->
+      <div style="margin-top: 10px;">
+        <p>Dev Team Average: ${calculateAverage(card.devEstimates || [])}</p>
+        <p>QA Team Average: ${calculateAverage(card.qaEstimates || [])}</p>
+      </div>
     `;
-
-    // If a URL exists, create an <a> element for the clickable link
-    if (url) {
-      const link = document.createElement('a');
-      link.href = url; // Set the link's href
-      link.target = '_blank'; // Open the link in a new tab
-      link.textContent = 'View Jira Issue';
-      link.style.color = '#007bff';
-      link.style.textDecoration = 'underline';
-      li.appendChild(link); // Append the link to the issue card
-    }
-
     // Add the issue card to the list
     issueCardsList.appendChild(li);
   });
+}
+  // Submit Estimate Function
+function submitEstimate(cardIndex, team) {
+  const inputId = team === 'dev' ? `dev-estimate-${cardIndex}` : `qa-estimate-${cardIndex}`;
+  const estimateInput = document.getElementById(inputId);
+  const estimate = parseInt(estimateInput.value, 10);
+
+  if (isNaN(estimate) || estimate <= 0) {
+    alert('Please enter a valid story point estimate.');
+    return;
+  }
+
+  socket.emit('submitEstimate', { sessionId, cardIndex, team, estimate });
+  estimateInput.value = ''; // Clear the input field
+}
+
+// Calculate Average Function
+function calculateAverage(estimates) {
+  if (!estimates.length) return 0;
+  const sum = estimates.reduce((total, value) => total + value, 0);
+  return (sum / estimates.length).toFixed(2);
 }

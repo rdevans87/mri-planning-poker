@@ -1,44 +1,49 @@
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-  }
-  .container {
-    margin-top: 30px;
-  }
-  .section-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #343a40;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 5px;
-  }
-  .card {
-    margin-bottom: 20px;
-  }
-  .btn-primary {
-    background-color: #007bff;
-    border: none;
-  }
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  .btn-danger {
-    background-color: #dc3545;
-    border: none;
-  }
-  .btn-danger:hover {
-    background-color: #a71d2a;
-  }
-  .result-section p {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
-  .list-group-item {
-    display: flex;
-    justify-content: space-between;
-  }
-  .active-player {
-    color: #28a745;
-    font-weight: bold;
-  }
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f8f9fa;
+}
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+.card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+h2 {
+  color: #333;
+}
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
+ul {
+  padding: 0;
+  list-style: none;
+}
+ul li {
+  background: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+input, select, textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

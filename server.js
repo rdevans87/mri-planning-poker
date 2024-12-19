@@ -29,23 +29,54 @@ io.on('connection', (socket) => {
   });
 
   // Add an issue card
+  //socket.on('addIssueCard', ({ sessionId, title, description, url }) => {
+   // const session = sessions[sessionId];
+   // if (session) {
+     // session.issueCards.push({ title, description, url });
+     // io.to(sessionId).emit('sessionData', session);
+  //  }
+  //});
+
+  //socket.on('submitEstimate', ({ sessionId, cardIndex, team, estimate }) => {
+    //const session = sessions[sessionId];
+    //if (session && session.issueCards[cardIndex]) {
+      //if (!session.issueCards[cardIndex][`${team}Estimates`]) {
+        //session.issueCards[cardIndex][`${team}Estimates`] = [];
+     // }
+      //session.issueCards[cardIndex][`${team}Estimates`].push(estimate);
+  
+      // Broadcast updated session data
+      //io.to(sessionId).emit('sessionData', session);
+    //}
+  //});
+
   socket.on('addIssueCard', ({ sessionId, title, description, url }) => {
     const session = sessions[sessionId];
     if (session) {
-      session.issueCards.push({ title, description, url });
+      session.issueCards.push({
+        title,
+        description,
+        url,
+        devEstimates: [],
+        qaEstimates: []
+      });
       io.to(sessionId).emit('sessionData', session);
     }
   });
 
+  // Submit a story point estimate
   socket.on('submitEstimate', ({ sessionId, cardIndex, team, estimate }) => {
     const session = sessions[sessionId];
     if (session && session.issueCards[cardIndex]) {
-      if (!session.issueCards[cardIndex][`${team}Estimates`]) {
-        session.issueCards[cardIndex][`${team}Estimates`] = [];
+      const issueCard = session.issueCards[cardIndex];
+
+      if (team === 'dev') {
+        issueCard.devEstimates.push(estimate);
+      } else if (team === 'qa') {
+        issueCard.qaEstimates.push(estimate);
       }
-      session.issueCards[cardIndex][`${team}Estimates`].push(estimate);
-  
-      // Broadcast updated session data
+
+      // Broadcast updated session data to all users in the session
       io.to(sessionId).emit('sessionData', session);
     }
   });

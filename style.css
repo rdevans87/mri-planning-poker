@@ -31,6 +31,11 @@ header h1 {
 h2 {
   color: #333;
 }
+#session-buttons {
+  display: flex; 
+  justify-content: space-between; 
+  margin-top: 10px;
+}
 button {
   background-color: #007bff;
   color: white;
@@ -42,10 +47,17 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-.new-session-button {
-  margin-top: 10px; 
+#join-session-button {
+  flex: 1;
+  margin-right: 10px;
+}
+#new-session-button {
+  flex: 1; 
   background-color: #dc3545; 
   color: white;
+}
+#new-session-button:hover {
+  background-color: #c82333;
 }
 ul {
   padding: 0;

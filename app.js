@@ -1,19 +1,64 @@
 const socket = io('http://localhost:3000');
 let sessionId;
 
-// Join a session
 function joinSession() {
-  sessionId = document.getElementById('session-id-input').value.trim();
-  const userName = document.getElementById('player-name-input').value.trim();
-  const userRole = document.getElementById('player-role-select').value;
+  const sessionIdInput = document.getElementById('session-id-input').value.trim();
+  const playerNameInput = document.getElementById('player-name-input').value.trim();
+  const playerRoleInput = document.getElementById('player-role-select').value;
 
-  if (!sessionId || !userName || !userRole) {
+  if (!sessionIdInput || !playerNameInput || !playerRoleInput) {
     alert('Please fill in all fields.');
     return;
   }
 
-  socket.emit('joinSession', { sessionId, userName, userRole });
+  sessionId = sessionIdInput;
+
+  // Save the session data in localStorage
+  localStorage.setItem('sessionId', sessionId);
+  localStorage.setItem('playerName', playerNameInput);
+  localStorage.setItem('playerRole', playerRoleInput);
+
+  // Emit the joinSession event to the server
+  socket.emit('joinSession', { sessionId, userName: playerNameInput, userRole: playerRoleInput });
 }
+
+window.addEventListener('load', () => {
+  const savedSessionId = localStorage.getItem('sessionId');
+  const savedPlayerName = localStorage.getItem('playerName');
+  const savedPlayerRole = localStorage.getItem('playerRole');
+
+  if (savedSessionId && savedPlayerName && savedPlayerRole) {
+    sessionId = savedSessionId;
+
+    // Automatically emit joinSession event
+    socket.emit('joinSession', {
+      sessionId: savedSessionId,
+      userName: savedPlayerName,
+      userRole: savedPlayerRole
+    });
+  }
+});
+
+function startNewSession() {
+  localStorage.removeItem('sessionId');
+  localStorage.removeItem('playerName');
+  localStorage.removeItem('playerRole');
+  location.reload();
+}
+
+// Join a session
+//function joinSession() {
+  //sessionId = document.getElementById('session-id-input').value.trim();
+  //const userName = document.getElementById('player-name-input').value.trim();
+  //const userRole = document.getElementById('player-role-select').value;
+
+  //if (!sessionId || !userName || !userRole) {
+    //alert('Please fill in all fields.');
+    //return;
+  //}
+
+  //socket.emit('joinSession', { sessionId, userName, userRole });
+//}
 
 // Add an issue card
 function addIssueCard() {

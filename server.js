@@ -16,11 +16,29 @@ io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
   // Join a session
-  socket.on('joinSession', ({ sessionId, userName, userRole }) => {
-    if (!sessions[sessionId]) {
-      sessions[sessionId] = { users: [], issueCards: [] };
-    }
-    const session = sessions[sessionId];
+ // socket.on('joinSession', ({ sessionId, userName, userRole }) => {
+   // if (!sessions[sessionId]) {
+     // sessions[sessionId] = { users: [], issueCards: [] };
+    //}
+    //const session = sessions[sessionId];
+
+    socket.on('joinSession', ({ sessionId, userName, userRole }) => {
+      if (!sessions[sessionId]) {
+        sessions[sessionId] = { users: [], issueCards: [] };
+      }
+    
+      const session = sessions[sessionId];
+    
+      // Check if the user is already in the session
+      const userExists = session.users.some((user) => user.name === userName);
+    
+      if (!userExists) {
+        session.users.push({ id: socket.id, name: userName, role: userRole });
+      }
+    
+      socket.join(sessionId);
+      io.to(sessionId).emit('sessionData', session);
+    });
 
     // Add the user
     session.users.push({ id: socket.id, name: userName, role: userRole });
@@ -90,7 +108,7 @@ io.on('connection', (socket) => {
     }
     console.log('User disconnected:', socket.id);
   });
-});
+//});
 
 server.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

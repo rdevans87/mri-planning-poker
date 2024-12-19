@@ -31,7 +31,6 @@ io.on('connection', (socket) => {
     
       // Check if the user is already in the session
       const userExists = session.users.some((user) => user.name === userName);
-    
       if (!userExists) {
         session.users.push({ id: socket.id, name: userName, role: userRole });
       }
@@ -41,10 +40,10 @@ io.on('connection', (socket) => {
     });
 
     // Add the user
-    session.users.push({ id: socket.id, name: userName, role: userRole });
-    socket.join(sessionId);
-    io.to(sessionId).emit('sessionData', session);
-  });
+    //session.users.push({ id: socket.id, name: userName, role: userRole });
+    //socket.join(sessionId);
+   // io.to(sessionId).emit('sessionData', session);
+  //});
 
   // Add an issue card
   //socket.on('addIssueCard', ({ sessionId, title, description, url }) => {
@@ -108,7 +107,7 @@ io.on('connection', (socket) => {
     }
     console.log('User disconnected:', socket.id);
   });
-//});
+});
 
 server.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

@@ -110,7 +110,6 @@ function renderIssueCards(issueCards) {
     li.style.border = '1px solid #ccc';
     li.style.borderRadius = '5px';
 
-
     // Create the content for the issue card
     li.innerHTML = `
      <strong>${card.title}</strong><br>
@@ -128,6 +127,14 @@ function renderIssueCards(issueCards) {
         <button onclick="submitEstimate(${index}, 'qa')">Submit</button>
       </div>
 
+      <!-- Estimates Section -->
+      <div style="margin-top: 10px;">
+        <strong>Dev Team Estimates:</strong>
+        <ul>${renderPlayerEstimates(card.devEstimates)}</ul>
+        <strong>QA Team Estimates:</strong>
+        <ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
+      </div>
+
       <!-- Results Section -->
       <div style="margin-top: 10px;">
         <p>Dev Team Average: <span style="color: #28a745;">${devAverage}</span></p>
@@ -139,18 +146,27 @@ function renderIssueCards(issueCards) {
     issueCardsList.appendChild(li);
   });
 }
+
+// Helper function to render player estimates
+function renderPlayerEstimates(estimates) {
+  if (!estimates || estimates.length === 0) return '<li>No estimates submitted</li>';
+  return estimates
+    .map(({ playerName, estimate }) => `<li>${playerName}: ${estimate} story points</li>`)
+    .join('');
+}
   // Submit Estimate Function
 function submitEstimate(cardIndex, team) {
   const inputId = team === 'dev' ? `dev-estimate-${cardIndex}` : `qa-estimate-${cardIndex}`;
   const estimateInput = document.getElementById(inputId);
   const estimate = parseInt(estimateInput.value, 10);
+  const playerName = localStorage.getItem('playerName');
 
   if (isNaN(estimate) || estimate <= 0) {
     alert('Please enter a valid story point estimate.');
     return;
   }
 
-  socket.emit('submitEstimate', { sessionId, cardIndex, team, estimate });
+  socket.emit('submitEstimate', { sessionId, cardIndex, team, estimate, playerName });
   estimateInput.value = ''; // Clear the input field
 }
 

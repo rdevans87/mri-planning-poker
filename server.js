@@ -82,17 +82,17 @@ io.on('connection', (socket) => {
   });
 
   // Submit a story point estimate
-  socket.on('submitEstimate', ({ sessionId, cardIndex, team, estimate }) => {
+  socket.on('submitEstimate', ({ sessionId, cardIndex, team, estimate, playerName }) => {
     const session = sessions[sessionId];
     if (session && session.issueCards[cardIndex]) {
       const issueCard = session.issueCards[cardIndex];
 
+    const estimateEntry = { playerName, estimate };
       if (team === 'dev') {
-        issueCard.devEstimates.push(estimate);
+        issueCard.devEstimates.push(estimateEntry);
       } else if (team === 'qa') {
-        issueCard.qaEstimates.push(estimate);
+        issueCard.qaEstimates.push(estimateEntry);
       }
-
       // Broadcast updated session data to all users in the session
       io.to(sessionId).emit('sessionData', session);
     }

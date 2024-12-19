@@ -109,6 +109,13 @@ io.on('connection', (socket) => {
   });
 });
 
+socket.on('clearSession', ({ sessionId }) => {
+  if (sessions[sessionId]) {
+    delete sessions[sessionId];
+    console.log(`Session ${sessionId} has been cleared.`);
+  }
+});
+
 server.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
 });

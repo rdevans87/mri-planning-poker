@@ -138,7 +138,7 @@ function renderIssueCards(issueCards) {
         <!-- QA Team Estimates -->
         <div style="flex: 1;">
           <strong>QA Team Estimates:</strong>
-          <ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
+          <<ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
         </div>
       </div>
 
@@ -182,6 +182,28 @@ function calculateAverage(estimates) {
   if (!estimates || estimates.length === 0) return 0; // Default to 0 if no estimates
   const sum = estimates.reduce((total, entry) => total + entry.estimate, 0);
   return sum / estimates.length;
+}
+
+function startNewSession() {
+  // Clear local storage
+  localStorage.removeItem('sessionId');
+  localStorage.removeItem('playerName');
+  localStorage.removeItem('playerRole');
+
+  // Notify the server to clear session data
+  if (sessionId) {
+    socket.emit('clearSession', { sessionId });
+  }
+
+  // Reset frontend state
+  sessionId = '';
+  document.getElementById('session-id-input').value = '';
+  document.getElementById('player-name-input').value = '';
+  document.getElementById('player-role-select').value = '';
+  document.getElementById('player-list').innerHTML = '';
+  document.getElementById('issue-cards-list').innerHTML = '';
+
+  alert('Session has been cleared. You can start a new session.');
 }
 
 //function calculateAverage(estimates) {

@@ -11,8 +11,10 @@
   <script src="server.js" defer></script>
 </head>
 <body>
+  <header>
+    <h1>Planning Poker</h1>
+  </header>
   <div class="container">
-
     <!-- Session Management Section -->
     <div class="card">
       <h2>Session Management</h2>
@@ -26,6 +28,7 @@
         <option value="PM">PM Team</option>
       </select>
       <button onclick="joinSession()">Join Session</button>
+      <button id="new-session-button" onclick="startNewSession()">New Session</button>
     </div>
 
     <!-- Players List -->

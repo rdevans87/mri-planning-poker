@@ -114,7 +114,7 @@ function renderIssueCards(issueCards) {
     li.innerHTML = `
      <strong>${card.title}</strong><br>
       <p>${card.description}</p>
-      ${card.url ? `<a href="${card.url}" target="_blank" style="color: #007bff; text-decoration: underline;">View Jira Issue</a>` : ''}
+      ${card.url ? `<a href="${card.url}" target="_blank" style="color: #007bff; text-decoration: underline;">${card.url}</a>` : ''}
       <div style="margin-top: 10px;">
         <!-- Dev Team Estimate -->
         <label for="dev-estimate-${index}">Dev Team Estimate:</label>
@@ -127,18 +127,25 @@ function renderIssueCards(issueCards) {
         <button onclick="submitEstimate(${index}, 'qa')">Submit</button>
       </div>
 
-      <!-- Estimates Section -->
-      <div style="margin-top: 10px;">
-        <strong>Dev Team Estimates:</strong>
-        <ul>${renderPlayerEstimates(card.devEstimates)}</ul>
-        <strong>QA Team Estimates:</strong>
-        <ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
+      <!-- Two-Column Layout for Estimates -->
+      <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+        <!-- Dev Team Estimates -->
+        <div style="flex: 1; margin-right: 10px;">
+          <strong>Dev Team Estimates:</strong>
+          <ul>${renderPlayerEstimates(card.devEstimates)}</ul>
+        </div>
+
+        <!-- QA Team Estimates -->
+        <div style="flex: 1;">
+          <strong>QA Team Estimates:</strong>
+          <ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
+        </div>
       </div>
 
       <!-- Results Section -->
       <div style="margin-top: 10px;">
-        <p>Dev Team Average: <span style="color: #28a745;">${devAverage}</span></p>
-        <p>QA Team Average: <span style="color: #17a2b8;">${qaAverage}</span></p>
+        <p>Dev Team Average: <span style="color: #28a745;">${devAverage.toFixed(2)}</span></p>
+        <p>QA Team Average: <span style="color: #17a2b8;">${qaAverage.toFixed(2)}</span></p>
         <p style="color: #dc3545; font-weight: bold;">Combined Total: ${combinedTotal}</p>
       </div>
     `;
@@ -151,7 +158,7 @@ function renderIssueCards(issueCards) {
 function renderPlayerEstimates(estimates) {
   if (!estimates || estimates.length === 0) return '<li>No estimates submitted</li>';
   return estimates
-    .map(({ playerName, estimate }) => `<li>${playerName}: ${estimate} story points</li>`)
+    .map(({ playerName, estimate }) => `<li>${playerName}: ${estimate}</li>`)
     .join('');
 }
   // Submit Estimate Function
@@ -172,7 +179,13 @@ function submitEstimate(cardIndex, team) {
 
 // Calculate Average Function
 function calculateAverage(estimates) {
-  if (!estimates.length) return 0;
-  const sum = estimates.reduce((total, value) => total + value, 0);
-  return (sum / estimates.length).toFixed(2);
+  if (!estimates || estimates.length === 0) return 0; // Default to 0 if no estimates
+  const sum = estimates.reduce((total, entry) => total + entry.estimate, 0);
+  return sum / estimates.length;
 }
+
+//function calculateAverage(estimates) {
+  //if (!estimates.length) return 0;
+  //const sum = estimates.reduce((total, value) => total + value, 0);
+  //return (sum / estimates.length).toFixed(2);
+//}

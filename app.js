@@ -1,4 +1,4 @@
-const socket = io('https://github.com/yourusername/planning-poker.git');
+const socket = io('https://rdevans87.github.io/Planning-Poker/');
 let sessionId;
 
 function joinSession() {

@@ -117,5 +117,5 @@ socket.on('clearSession', ({ sessionId }) => {
 });
 
 server.listen(3000, () => {
-  console.log('Server running on https://github.com/rdevans87/planning-poker.git');
+  console.log('Server running on https://rdevans87.github.io/Planning-Poker/');
 });

@@ -116,6 +116,7 @@ socket.on('clearSession', ({ sessionId }) => {
   }
 });
 
-server.listen(3000, () => {
-  console.log('Server running on https://mri-planning-poker-7a37e47b6257.herokuapp.com/');
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

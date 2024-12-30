@@ -117,5 +117,5 @@ socket.on('clearSession', ({ sessionId }) => {
 });
 
 server.listen(3000, () => {
-  console.log('Server running on https://rdevans87.github.io/Planning-Poker/');
+  console.log('Server running on https://mri-planning-poker-7a37e47b6257.herokuapp.com/');
 });

@@ -1,4 +1,4 @@
-const socket = io('https://mri-planning-poker.herokuapp.com/');
+const socket = io('https://mri-planning-poker-7a37e47b6257.herokuapp.com');
 let sessionId;
 
 function joinSession() {

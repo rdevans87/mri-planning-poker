@@ -9,7 +9,7 @@ const io = new Server(server);
 
 // Enable CORS
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5155','https://mri-planning-poker-7a37e47b6257.herokuapp.com', 'https://rdevans87.github.io/mri-planning-poker/'], // Include your GitHub Pages URL
+  origin: ['https://mri-planning-poker-7a37e47b6257.herokuapp.com', 'https://rdevans87.github.io/mri-planning-poker/'], // Include your GitHub Pages URL
   methods: ['GET', 'POST'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type'], // Allow specific headers
   credentials: true // If you need cookies or authorization headers
@@ -111,7 +111,7 @@ io.on('connection', (socket) => {
 });
 
 // Use the Heroku-provided port or 3000 for local development
-const PORT = process.env.PORT || 3000; 51555;
+const PORT = process.env.PORT || '';
 server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -9,9 +9,15 @@ const io = new Server(server);
 
 // Enable CORS
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://rdevans87.github.io/mri-planning-poker'], // Replace with your frontend URLs
-  methods: ['GET', 'POST'],
+  origin: ['http://localhost:3000', 'https://rdevans87.github.io/mri-planning-poker/'], // Include your GitHub Pages URL
+  methods: ['GET', 'POST'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type'], // Allow specific headers
+  credentials: true // If you need cookies or authorization headers
 }));
+
+app.get('/test-cors', (req, res) => {
+  res.json({ message: 'CORS is working!' });
+});
 
 // Serve the frontend files
 app.use(express.static(__dirname));

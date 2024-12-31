@@ -1,6 +1,5 @@
-const socket = io('https://mri-planning-poker.herokuapp.com');
+const socket = io('https://git.heroku.com/mri-planning-poker.git');
 let sessionId;
-
 function joinSession() {
   const sessionIdInput = document.getElementById('session-id-input').value.trim();
   const playerNameInput = document.getElementById('player-name-input').value.trim();

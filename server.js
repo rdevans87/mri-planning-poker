@@ -1,10 +1,15 @@
 const express = require('express');
-const https = require('https');
+const http = require('http');
 const { Server } = require('socket.io');
+const cors = require('cors'); // Import CORS
+
 
 const app = express();
-const server = https.createServer(app);
+const server = http.createServer(app);
 const io = new Server(server);
+
+// Enable CORS
+app.use(cors());
 
 // Serve the frontend files
 app.use(express.static(__dirname));
@@ -14,6 +19,13 @@ const sessions = {};
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected:', socket.id);
+  });
+
+  // Add other Socket.IO event handlers here
+});
 
   // Join a session
  // socket.on('joinSession', ({ sessionId, userName, userRole }) => {
@@ -107,7 +119,7 @@ io.on('connection', (socket) => {
     }
     console.log('User disconnected:', socket.id);
   });
-});
+
 
 socket.on('clearSession', ({ sessionId }) => {
   if (sessions[sessionId]) {
@@ -118,5 +130,5 @@ socket.on('clearSession', ({ sessionId }) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Server running on port "https://mri-planning-poker-7a37e47b6257.herokuapp.com/".`);
+  console.log(`Server running on port ${PORT}`);
 });

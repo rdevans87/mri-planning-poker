@@ -1,5 +1,5 @@
-//const socket = io('https://mri-planning-poker-7a37e47b6257.herokuapp.com');
-const socket = io('http://localhost:3000'); // Adjust to match your backend's URL
+const socket = io('https://mri-planning-poker-7a37e47b6257.herokuapp.com');
+//const socket = io('http://localhost:3000'); // Adjust to match your backend's URL
 let sessionId = '';
 function joinSession() {
   const sessionIdInput = document.getElementById('session-id-input').value.trim();

@@ -9,7 +9,7 @@ const io = new Server(server);
 
 // Enable CORS
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://rdevans87.github.io'], // Replace with your frontend URLs
+  origin: ['http://localhost:3000', 'https://rdevans87.github.io/mri-planning-poker'], // Replace with your frontend URLs
   methods: ['GET', 'POST'],
 }));
 

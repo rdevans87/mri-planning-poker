@@ -1,4 +1,4 @@
-const socket = io('https://git.heroku.com/mri-planning-poker.git');
+const socket = io('https://mri-planning-poker-7a37e47b6257.herokuapp.com');
 let sessionId;
 function joinSession() {
   const sessionIdInput = document.getElementById('session-id-input').value.trim();
@@ -137,7 +137,7 @@ function renderIssueCards(issueCards) {
         <!-- QA Team Estimates -->
         <div style="flex: 1;">
           <strong>QA Team Estimates:</strong>
-          <<ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
+          <ul>${renderPlayerEstimates(card.qaEstimates)}</ul>
         </div>
       </div>
 

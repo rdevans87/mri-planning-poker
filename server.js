@@ -8,7 +8,10 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 // Enable CORS
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://rdevans87.github.io'], // Replace with your frontend URLs
+  methods: ['GET', 'POST'],
+}));
 
 // Serve the frontend files
 app.use(express.static(__dirname));
@@ -16,27 +19,32 @@ app.use(express.static(__dirname));
 // In-memory data store
 const sessions = {};
 
-// Handle client connections
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  // Join a session
+  // Handle joining a session
   socket.on('joinSession', ({ sessionId, userName, userRole }) => {
+    if (!sessionId || !userName || !userRole) {
+      socket.emit('error', { message: 'Invalid session data.' });
+      return;
+    }
+
     if (!sessions[sessionId]) {
       sessions[sessionId] = { users: [], issueCards: [] };
     }
 
     const session = sessions[sessionId];
 
-    // Check if the user is already in the session
+    // Avoid duplicate users
     const userExists = session.users.some((user) => user.name === userName);
     if (!userExists) {
       session.users.push({ id: socket.id, name: userName, role: userRole });
     }
 
     socket.join(sessionId);
-    io.to(sessionId).emit('sessionData', session);
+    io.to(sessionId).emit('sessionData', session); // Broadcast session data
   });
+
 
   // Add an issue card
   socket.on('addIssueCard', ({ sessionId, title, description, url }) => {
@@ -55,6 +63,11 @@ io.on('connection', (socket) => {
 
   // Submit a story point estimate
   socket.on('submitEstimate', ({ sessionId, cardIndex, team, estimate, playerName }) => {
+    if (!sessionId || typeof cardIndex !== 'number' || !team || !estimate || !playerName) {
+      socket.emit('error', { message: 'Invalid estimate data.' });
+      return;
+    }
+
     const session = sessions[sessionId];
     if (session && session.issueCards[cardIndex]) {
       const issueCard = session.issueCards[cardIndex];
@@ -65,32 +78,34 @@ io.on('connection', (socket) => {
       } else if (team === 'qa') {
         issueCard.qaEstimates.push(estimateEntry);
       }
-      // Broadcast updated session data to all users in the session
-      io.to(sessionId).emit('sessionData', session);
+
+      io.to(sessionId).emit('sessionData', session); // Broadcast updated session data
     }
   });
 
-  // Handle disconnects
+  // Handle user disconnection
   socket.on('disconnect', () => {
     for (const sessionId in sessions) {
       const session = sessions[sessionId];
       session.users = session.users.filter((user) => user.id !== socket.id);
-      io.to(sessionId).emit('sessionData', session);
+
+      io.to(sessionId).emit('sessionData', session); // Notify others in the session
     }
     console.log('User disconnected:', socket.id);
   });
 
-  // Clear session data
+  // Handle clearing a session
   socket.on('clearSession', ({ sessionId }) => {
     if (sessions[sessionId]) {
       delete sessions[sessionId];
+      io.to(sessionId).emit('sessionCleared'); // Notify all users in the session
       console.log(`Session ${sessionId} has been cleared.`);
     }
   });
 });
 
-// Set up the server to listen on the Heroku-provided port or 3000
+// Use the Heroku-provided port or 3000 for local development
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

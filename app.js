@@ -39,12 +39,12 @@ window.addEventListener('load', () => {
   }
 });
 
-function startNewSession() {
-  localStorage.removeItem('sessionId');
-  localStorage.removeItem('playerName');
-  localStorage.removeItem('playerRole');
-  location.reload();
-}
+// function startNewSession() {
+//   localStorage.removeItem('sessionId');
+//   localStorage.removeItem('playerName');
+//   localStorage.removeItem('playerRole');
+//   location.reload();
+// }
 
 // Join a session
 //function joinSession() {
@@ -206,8 +206,8 @@ function startNewSession() {
   alert('Session has been cleared. You can start a new session.');
 }
 
-//function calculateAverage(estimates) {
-  //if (!estimates.length) return 0;
-  //const sum = estimates.reduce((total, value) => total + value, 0);
-  //return (sum / estimates.length).toFixed(2);
-//}
+// function calculateAverage(estimates) {
+//   if (!estimates.length) return 0;
+//   const sum = estimates.reduce((total, value) => total + value, 0);
+//   return (sum / estimates.length).toFixed(2);
+// }

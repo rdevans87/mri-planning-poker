@@ -1,10 +1,9 @@
-const express = require('express');
+import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+import cors from 'cors';
+
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors'); // Import CORS
-
-
 
 const server = http.createServer(app);
 const io = new Server(server);
@@ -20,12 +19,6 @@ const sessions = {};
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
-
-  socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
-  });
-
-  // Add other Socket.IO event handlers here
 });
 
   // Join a session

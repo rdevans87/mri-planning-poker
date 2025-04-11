@@ -9,7 +9,7 @@ const io = new Server(server);
 
 // Enable CORS
 app.use(cors({
-  origin: ['https://mri-planning-poker-7a37e47b6257.herokuapp.com', 'http://localhost:300'], // Include your GitHub Pages URL
+  origin: ['', 'http://localhost:300'], // Include your GitHub Pages URL
   methods: ['GET', 'POST'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type'], // Allow specific headers
   credentials: true // If you need cookies or authorization headers

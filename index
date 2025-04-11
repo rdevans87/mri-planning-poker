@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRI Planning Poker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>MRI Planning Poker</h1>
+  </header>
+  <div class="container">
+    <!-- Session Management Section -->
+    <div class="card">
+      <h2>Session Management</h2>
+      <input id="session-id-input" type="text" placeholder="Enter Session ID">
+      <input id="player-name-input" type="text" placeholder="Enter Your Name">
+      <label for="player-role-select">Select Your Role</label>
+      <select id="player-role-select">
+        <option value="" disabled selected>Select Your Role</option>
+        <option value="QA">QA Team</option>
+        <option value="PD">Dev Team</option>
+        <option value="PM">PM Team</option>
+      </select>
+      <div id="session-buttons">
+      <button id="join-session-button" onclick="joinSession()">Join Session</button>
+      <button id="new-session-button" onclick="startNewSession()">New Session</button>
+    </div>
+    </div>
+
+    <!-- Players List -->
+    <div class="card">
+      <h2>Players in Session</h2>
+      <ul id="player-list"></ul>
+    </div>
+
+    <!-- Add Issue Card Section -->
+    <div class="card">
+      <h2>Add Issue Card</h2>
+      <input id="issue-title-input" type="text" placeholder="Enter Issue Title">
+      <textarea id="issue-description-input" rows="3" placeholder="Enter Issue Description"></textarea>
+      <input id="issue-url-input" type="url" placeholder="Enter Jira Issue URL">
+      <button onclick="addIssueCard()">Add Issue Card</button>
+    </div>
+
+    <!-- Issue Cards Section -->
+    <div class="card">
+      <h2>Issue Cards</h2>
+      <ul id="issue-cards-list"></ul>
+    </div>
+  </div>
+</body> 
+</html>

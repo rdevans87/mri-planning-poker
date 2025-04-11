@@ -165,10 +165,10 @@ function renderPlayerEstimates(estimates) {
 function submitEstimate(cardIndex, team) {
   const inputId = team === 'dev' ? `dev-estimate-${cardIndex}` : `qa-estimate-${cardIndex}`;
   const estimateInput = document.getElementById(inputId);
-  const estimate = parseInt(estimateInput.value, 10);
+  const estimate = parseFloat(estimateInput.value);
   const playerName = localStorage.getItem('playerName');
 
-  if (isNaN(estimate) || estimate <= 0) {
+  if (isNaN(estimate) || estimate < 0) {
     alert('Please enter a valid story point estimate.');
     return;
   }

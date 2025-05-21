@@ -9,7 +9,11 @@ const io = new Server(server);
 
 // Enable CORS
 app.use(cors({
-  origin: ['', 'http://localhost:300'], // Include your GitHub Pages URL
+  origin: [
+    'http://localhost:3000',
+    'https://rdevans87.github.io',
+    'https://mri-planning-poker-7a37e47b6257.herokuapp.com'
+  ], // Include your GitHub Pages URL
   methods: ['GET', 'POST'], // Allowed HTTP methods
   allowedHeaders: ['Content-Type'], // Allow specific headers
   credentials: true // If you need cookies or authorization headers
@@ -29,7 +33,29 @@ io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
   // Handle joining a session
-  socket.on('joinSession', ({ sessionId, userName, userRole }) => {
+  socket.on('startSession', ({ sessionId, userName, userRole }) => {
+    if (!sessionId || !userName || !userRole) {
+      socket.emit('error', { message: 'Invalid session data.' });
+      return;
+    }
+
+    if (!sessions[sessionId]) {
+      sessions[sessionId] = { users: [], issueCards: [] };
+    }
+
+    const session = sessions[sessionId];
+
+    // Avoid duplicate users
+    const userExists = session.users.some((user) => user.name === userName);
+    if (!userExists) {
+      session.users.push({ id: socket.id, name: userName, role: userRole });
+    }
+    
+    socket.join(sessionId);
+    io.to(sessionId).emit('sessionData', session); // Broadcast session data
+  });
+
+    socket.on('joinSession', ({ sessionId, userName, userRole }) => {
     if (!sessionId || !userName || !userRole) {
       socket.emit('error', { message: 'Invalid session data.' });
       return;

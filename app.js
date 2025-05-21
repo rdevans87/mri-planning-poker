@@ -1,6 +1,7 @@
-const socket = io('https://mri-planning-poker-7a37e47b6257.herokuapp.com');
-//const socket = io('http://localhost:3000'); // Adjust to match your backend's URL
+//const socket = io('https://mri-planning-poker-7a37e47b6257.herokuapp.com'); // Adjust to match your backend's URL
+const socket = io('http://localhost:3000'); // Adjust to match your backend's URL
 let sessionId = '';
+
 function joinSession() {
   const sessionIdInput = document.getElementById('session-id-input').value.trim();
   const playerNameInput = document.getElementById('player-name-input').value.trim();
@@ -39,6 +40,46 @@ window.addEventListener('load', () => {
   }
 });
 
+
+function startSession() {
+  const sessionIdInput = document.getElementById('session-id-input').value.trim();
+  const playerNameInput = document.getElementById('player-name-input').value.trim();
+  const playerRoleInput = document.getElementById('player-role-select').value;
+
+  if (!sessionIdInput || !playerNameInput || !playerRoleInput) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  sessionId = sessionIdInput;
+
+  // Save the session data in localStorage
+  localStorage.setItem('sessionId', sessionId);
+  localStorage.setItem('playerName', playerNameInput);
+  localStorage.setItem('playerRole', playerRoleInput);
+
+  // Emit the joinSession event to the server
+  socket.emit('startSession', { sessionId, userName: playerNameInput, userRole: playerRoleInput });
+}
+
+window.addEventListener('load', () => {
+  const savedSessionId = localStorage.getItem('sessionId');
+  const savedPlayerName = localStorage.getItem('playerName');
+  const savedPlayerRole = localStorage.getItem('playerRole');
+
+  if (savedSessionId && savedPlayerName && savedPlayerRole) {
+    sessionId = savedSessionId;
+
+    // Automatically emit joinSession event
+    socket.emit('startSession', {
+      sessionId: savedSessionId,
+      userName: savedPlayerName,
+      userRole: savedPlayerRole
+    });
+  }
+});
+
+
 // function startNewSession() {
 //   localStorage.removeItem('sessionId');
 //   localStorage.removeItem('playerName');
@@ -72,9 +113,10 @@ function addIssueCard() {
   }
   socket.emit('addIssueCard', { sessionId, title: issueTitle, description: issueDescription, url: issueUrl });
 
-  //document.getElementById('issue-title-input').value = '';
-  //document.getElementById('issue-description-input').value = '';
-  //document.getElementById('issue-url-input').value = '';
+  // Clear the input fields after adding an issue card
+  document.getElementById('issue-title-input').value = '';
+  document.getElementById('issue-description-input').value = '';
+  document.getElementById('issue-url-input').value = '';
 }
 
 // Listen for session updates

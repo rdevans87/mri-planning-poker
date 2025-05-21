@@ -50,14 +50,29 @@ button:hover {
 #join-session-button {
   flex: 1;
   margin-right: 10px;
+  background-color: #a7dc35;
 }
+#join-session-button:hover {
+  background-color: #7dad16; 
+}
+
+#start-session-button {
+  flex: 1; 
+  background-color: #0056b3;
+  margin-right: 10px;
+  color: white;
+}
+#start-session-button:hover {
+  background-color:  #024184;
+}
+
 #new-session-button {
   flex: 1; 
   background-color: #dc3545; 
   color: white;
 }
 #new-session-button:hover {
-  background-color: #c82333;
+  background-color: #a91524;
 }
 ul {
   padding: 0;
